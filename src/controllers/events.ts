@@ -17,7 +17,7 @@ export const getAll: RequestHandler = async (req, res) => {
 export const getOne: RequestHandler = async (req, res) => {
   const { id } = req.params;
 
-  const data = await events.getOne(id);
+  const data = await events.getOne(parseInt(id));
 
   if (data) {
     return res.json({ event: data });
@@ -66,7 +66,7 @@ export const update: RequestHandler = async (req, res) => {
     return res.status(400).json({ error: 'Dados inválidos.' });
   }
 
-  const updatedEvent = await events.update(id, body.data);
+  const updatedEvent = await events.update(parseInt(id), body.data);
 
   if (updatedEvent) {
     if (updatedEvent.status) {
@@ -84,7 +84,7 @@ export const update: RequestHandler = async (req, res) => {
 export const remove: RequestHandler = async (req, res) => {
   const { id } = req.params;
 
-  const removedEvent = await events.remove(id);
+  const removedEvent = await events.remove(parseInt(id));
 
   if (removedEvent) {
     return res.json({ event: removedEvent });

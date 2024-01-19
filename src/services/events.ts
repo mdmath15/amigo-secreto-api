@@ -14,11 +14,11 @@ export const getAll = async () => {
   }
 };
 
-export const getOne = async (id: string) => {
+export const getOne = async (id: number) => {
   try {
     return await prisma.event.findFirst({
       where: {
-        id: parseInt(id),
+        id: id,
       },
     });
   } catch (error) {
@@ -40,11 +40,11 @@ export const create = async (data: EventCreateData) => {
 
 type EventUpdateData = Prisma.Args<typeof prisma.event, 'update'>['data'];
 
-export const update = async (id: string, data: EventUpdateData) => {
+export const update = async (id: number, data: EventUpdateData) => {
   try {
     return await prisma.event.update({
       where: {
-        id: parseInt(id),
+        id,
       },
       data,
     });
@@ -53,11 +53,11 @@ export const update = async (id: string, data: EventUpdateData) => {
   }
 };
 
-export const remove = async (id: string) => {
+export const remove = async (id: number) => {
   try {
     return await prisma.event.delete({
       where: {
-        id: parseInt(id),
+        id,
       },
     });
   } catch (error) {
