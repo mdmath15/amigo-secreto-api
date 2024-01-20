@@ -20,5 +20,7 @@ router.delete('/events/:id', auth.validate, events.remove);
 router.get('/events/:event_id/groups', auth.validate, groups.getAll);
 router.get('/events/:event_id/groups/:id', auth.validate, groups.getOne);
 router.post('/events/:event_id/groups', auth.validate, groups.create);
+router.put('/events/:event_id/groups/:id', auth.validate, groups.update);
+router.delete('/events/:event_id/groups/:id', auth.validate, groups.remove);
 
 export const adminRoutes = router;

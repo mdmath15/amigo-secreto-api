@@ -45,3 +45,39 @@ export const create = async (data: GroupCreateData) => {
     return false;
   }
 };
+
+type UpdateGroupParams = {
+  id: number;
+  event_id?: number;
+};
+
+type GroupUpdateData = Prisma.Args<typeof prisma.eventGroup, 'update'>['data'];
+
+export const update = async (
+  params: UpdateGroupParams,
+  data: GroupUpdateData
+) => {
+  try {
+    return await prisma.eventGroup.update({
+      where: params,
+      data,
+    });
+  } catch (error) {
+    return false;
+  }
+};
+
+type DeleteGroupParams = {
+  id: number;
+  event_id?: number;
+};
+
+export const remove = async (params: DeleteGroupParams) => {
+  try {
+    return await prisma.eventGroup.delete({
+      where: params,
+    });
+  } catch (error) {
+    return false;
+  }
+};

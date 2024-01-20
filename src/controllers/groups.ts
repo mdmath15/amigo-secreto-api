@@ -57,3 +57,46 @@ export const create: RequestHandler = async (req, res) => {
 
   res.json({ error: 'Ocorreu um erro.' });
 };
+
+export const update: RequestHandler = async (req, res) => {
+  const { event_id, id } = req.params;
+
+  const updateGroupSchema = z.object({
+    name: z.string().optional(),
+  });
+
+  const body = updateGroupSchema.safeParse(req.body);
+
+  if (!body.success) {
+    return res.status(400).json({ error: 'Dados inválidos.' });
+  }
+
+  const updatedEventGroup = await groups.update(
+    {
+      id: parseInt(id),
+      event_id: parseInt(event_id),
+    },
+    body.data
+  );
+
+  if (updatedEventGroup) {
+    return res.json({ group: updatedEventGroup });
+  }
+
+  res.json({ error: 'Ocorreu um erro.' });
+};
+
+export const remove: RequestHandler = async (req, res) => {
+  const { event_id, id } = req.params;
+
+  const deletedEventGroup = await groups.remove({
+    id: parseInt(id),
+    event_id: parseInt(event_id),
+  });
+
+  if (deletedEventGroup) {
+    return res.json({ group: deletedEventGroup });
+  }
+
+  res.json({ error: 'Ocorreu um erro.' });
+};
