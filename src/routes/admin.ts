@@ -40,4 +40,16 @@ router.post(
   people.create
 );
 
+router.put(
+  '/events/:event_id/groups/:group_id/people/:id',
+  auth.validate,
+  people.update
+);
+
+router.delete(
+  '/events/:event_id/groups/:group_id/people/:id',
+  auth.validate,
+  people.remove
+);
+
 export const adminRoutes = router;

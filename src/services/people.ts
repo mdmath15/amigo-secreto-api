@@ -66,3 +66,44 @@ export const create = async (data: PeopleCreateData) => {
     return false;
   }
 };
+
+type PeopleUpdateData = Prisma.Args<
+  typeof prisma.eventPeople,
+  'update'
+>['data'];
+
+type UpdatePeopleParams = {
+  id?: number;
+  group_id?: number;
+  event_id: number;
+};
+
+export const update = async (
+  params: UpdatePeopleParams,
+  data: PeopleUpdateData
+) => {
+  try {
+    return await prisma.eventPeople.updateMany({
+      where: params,
+      data,
+    });
+  } catch (error) {
+    return false;
+  }
+};
+
+type DeletePeopleParams = {
+  id: number;
+  group_id?: number;
+  event_id?: number;
+};
+
+export const remove = async (params: DeletePeopleParams) => {
+  try {
+    return await prisma.eventPeople.delete({
+      where: params,
+    });
+  } catch (error) {
+    return false;
+  }
+};
