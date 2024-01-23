@@ -45,7 +45,7 @@ export const create: RequestHandler = async (req, res) => {
     name: z.string(),
     cpf: z
       .string()
-      .refine(validateCPF)
+      // .refine(validateCPF)
       .transform((cpf) => cpf.replace(/\D/g, '')),
   });
 
@@ -78,7 +78,7 @@ export const update: RequestHandler = async (req, res) => {
     name: z.string().optional(),
     cpf: z
       .string()
-      .refine(validateCPF)
+      // .refine(validateCPF)
       .transform((cpf) => cpf.replace(/\D/g, ''))
       .optional(),
     matched: z.string().optional(),
