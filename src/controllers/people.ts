@@ -2,6 +2,7 @@ import { RequestHandler } from 'express';
 import { z } from 'zod';
 import { validateCPF } from '../utils/validate-cpf';
 import * as people from '../services/people';
+import { decryptMatch } from '../utils/match';
 
 export const getAll: RequestHandler = async (req, res) => {
   const { event_id, group_id } = req.params;
@@ -128,6 +129,51 @@ export const remove: RequestHandler = async (req, res) => {
 
   if (data) {
     return res.json({ person: data });
+  }
+
+  res.json({
+    error: 'Ocorreu um erro.',
+  });
+};
+
+export const searchPerson: RequestHandler = async (req, res) => {
+  const { event_id } = req.params;
+
+  const searchPersonScheema = z.object({
+    cpf: z.string().transform((cpf) => cpf.replace(/\D/g, '')),
+  });
+
+  const query = searchPersonScheema.safeParse(req.query);
+
+  if (!query.success) {
+    return res.status(400).json({ error: 'Dados inválidos.' });
+  }
+
+  const person = await people.getOne({
+    event_id: parseInt(event_id),
+    cpf: query.data.cpf,
+  });
+
+  if (person && person.matched) {
+    const matchId = decryptMatch(person.matched);
+
+    const personMatched = await people.getOne({
+      event_id: parseInt(event_id),
+      id: matchId,
+    });
+
+    if (personMatched) {
+      return res.json({
+        person: {
+          id: person.id,
+          name: person.name,
+        },
+        personMatched: {
+          id: personMatched.id,
+          name: personMatched.name,
+        },
+      });
+    }
   }
 
   res.json({
