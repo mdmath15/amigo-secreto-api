@@ -40,7 +40,7 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: mdmath-task:1
+          task-definition: mdmath-task-revision1.json
           container-name: amigo-secreto-api
           image: ${{ steps.build-image.outputs.image }}
       - name: Deploy Amazon ECS task definition
