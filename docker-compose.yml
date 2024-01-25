@@ -1,0 +1,22 @@
+# Set the version of docker compose to use
+version: '3.9'
+
+# The containers that compose the project
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    container_name: amigo-secreto
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: amigo-secreto
+
+  app:
+    build: .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
