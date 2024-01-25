@@ -1,4 +1,4 @@
-name: CICD
+name: Deploy to Amazon ECS
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: latest
-          REPOSITORY: nodejs-app
+          REPOSITORY: amigo-secreto-api
         run: |
           # Build a docker container and
           # push it to ECR so that it can
@@ -40,13 +40,13 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: nodejs-app-task-definition.json
-          container-name: nodejs-app
+          task-definition: mdmath-task:1
+          container-name: amigo-secreto-api
           image: ${{ steps.build-image.outputs.image }}
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: nodejs-app-service
+          service: ${{secrets.ECS_SERVICE_NAME}}
           cluster: ${{secrets.ECS_CLUSTER_NAME}}
           wait-for-service-stability: true
