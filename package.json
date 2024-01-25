@@ -9,7 +9,8 @@
     "start": "node build/server.js",
     "migrate:dev": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
-    "start:dev": "prisma migrate dev && npm run start"
+    "start:dev": "prisma migrate dev && npm run start",
+    "start:deploy": "prisma migrate deploy && npm run start"
   },
   "author": "",
   "license": "ISC",
