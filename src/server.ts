@@ -20,7 +20,7 @@ app.use('/admin', adminRoutes);
 app.use('/', siteRoutes);
 
 app.get('/health', (req, res) => {
-  res.status(200).send('OK');
+  res.status(200).json({ message: 'OK' });
 });
 
 const runServer = (port: number, server: http.Server) => {
